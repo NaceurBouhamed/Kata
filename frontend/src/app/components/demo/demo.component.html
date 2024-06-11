@@ -1,0 +1,73 @@
+<!-- Button trigger modal -->
+<div class="px-3">
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-toggle="modal"
+    data-target="#demoModal"
+    (click)="openModal()"
+  >
+    Open test
+  </button>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    #demoModal
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="demoModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="demoModalLabel">Modal for demo</h5>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="numberForm">
+            <p>Please pick a value between 0 and 100</p>
+            <input
+              id="valueNumber"
+              type="number"
+              class=""
+              formControlName="value"
+              min="0"
+              max="100"
+            />
+            @if (formError$ | async) {
+              <p class="text-danger">Value must be a number in [0,100]</p>
+            }
+          </form>
+          @if (loading$ | async) {
+            <div class="spinner-border mt-3" role="status">
+              <span class="sr-only"></span>
+            </div>
+          } @else {
+            @if (apiMsg$ | async; as apiMsg) {
+              <p class="mt-3">Api says: {{ apiMsg }}</p>
+            }
+          }
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="submit()"
+            [disabled]="numberForm.invalid"
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            (click)="closeModal()"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
